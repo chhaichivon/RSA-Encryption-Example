@@ -46,17 +46,17 @@ public class RSAUtils {
         return kf.generatePublic(spec);
     }
 
-    public static String encrypt(String plainText, PublicKey publicKey) throws Exception {
+    public static String encrypt(String plainText, PrivateKey privateKey) throws Exception {
         Cipher cipherEncrypt =  Cipher.getInstance("RSA");
-        cipherEncrypt.init(Cipher.ENCRYPT_MODE, publicKey);
+        cipherEncrypt.init(Cipher.ENCRYPT_MODE, privateKey);
         byte[] cipherText = cipherEncrypt.doFinal(plainText.getBytes(StandardCharsets.UTF_8));
         return Base64.getEncoder().encodeToString(cipherText);
     }
 
-    public static String decrypt(String cipherText, PrivateKey privateKey) throws Exception {
+    public static String decrypt(String cipherText,PublicKey publicKey) throws Exception {
         byte[] bytes = Base64.getDecoder().decode(cipherText);
         Cipher cipherDecrypt = Cipher.getInstance("RSA");
-        cipherDecrypt.init(Cipher.DECRYPT_MODE, privateKey);
+        cipherDecrypt.init(Cipher.DECRYPT_MODE, publicKey);
         return new String(cipherDecrypt.doFinal(bytes), StandardCharsets.UTF_8);
     }
 
